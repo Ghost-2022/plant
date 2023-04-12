@@ -8,7 +8,7 @@
 import os
 import uuid
 
-from flask import request, jsonify, current_app
+from flask import request, jsonify, current_app, url_for
 from PIL import Image
 
 from . import api
@@ -30,7 +30,7 @@ def identify():
         save_path = os.path.join(current_app.config['UPLOAD_IMG'], save_file_name)
         file.save(file_path)
         image = Image.open(file_path)
-        data = {'imgUrl': file_path, 'resultUrl': save_path}
+        data = {'imgUrl': file_path.replace('app', ''), 'resultUrl': save_path.replace('app', '')}
         if identify_type == 'classification':
             class_name, probability = current_app.classification.detect_image(image, save_path)
             data.update({'className': class_name, 'probability': f'{probability:.3f}'})

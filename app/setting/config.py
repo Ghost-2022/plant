@@ -10,7 +10,7 @@ import os
 
 class BaseConfig:
     basedir = os.path.abspath(os.path.dirname(__file__))
-    UPLOAD_IMG = 'static/imgs'
+    UPLOAD_IMG = 'app/static/imgs'
 
 
 class DevlopConfig(BaseConfig):
