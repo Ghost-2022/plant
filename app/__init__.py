@@ -22,7 +22,6 @@ def create_app():
     app = Flask(__name__)
     env = os.getenv('APP_ENV', 'develop')
     app.config.from_object(config.config_map.get(env))
-
     CORS(app, resources={r"/api/*": {"origins": "*"}})
 
     app.register_blueprint(api.api)
@@ -37,6 +36,7 @@ def create_app():
         model_path=app.config['YOLO_MODEL_PATH'],
         classes_path=app.config['YOLO_CLASSES_PATH'],
         anchors_path=app.config['YOLO_ANCHORS_PATH'],
+        font_path=app.config['YOLO_FONT_PATH'],
         cuda=cuda
     )
     app.segmentation = deeplab.DeeplabV3(

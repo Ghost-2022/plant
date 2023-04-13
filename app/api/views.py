@@ -33,11 +33,13 @@ def identify():
         data = {'imgUrl': file_path.replace('app', ''), 'resultUrl': save_path.replace('app', '')}
         if identify_type == 'classification':
             class_name, probability = current_app.classification.detect_image(image, save_path)
-            data.update({'className': class_name, 'probability': f'{probability:.3f}'})
+            data['tableData'] = [{'className': class_name, 'probability': f'{probability:.3f}',
+                                  'size': f"{image.size[0]}*{image.size[1]}"}]
         elif identify_type == 'detection':
-            new_image = current_app.detection.detect_image(image, crop=False, count=False)
+            new_image, class_name = current_app.detection.detect_image(image, crop=True, count=True)
             new_image.save(save_path)
-
+            data['tableData'] = [{'className': class_name,
+                                  'size': f"{image.size[0]}*{image.size[1]}"}]
         elif identify_type == 'segmentation':
             new_image = current_app.segmentation.detect_image(image, count=False, name_classes=["_background_", "1", '2', '3'])
             new_image.save(save_path)
